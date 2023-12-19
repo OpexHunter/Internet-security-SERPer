@@ -1,0 +1,7 @@
+#Конвертировать UI в .py файл
+pyside6-uic SERPer.ui -o src/setupUI.py
+#Конвертировать файл ресурсов .qrc в .py файл
+pyside6-rcc src/assets/qrc.qrc -o src/qrc.py
+
+#build
+pyinstaller --onefile --windowed --add-data "src/assets;assets" --hidden-import sklearn.ensemble --hidden-import sklearn.tree --hidden-import sklearn.neighbors.typedefs --hidden-import sklearn.neighbors.quad_tree --hidden-import sklearn.tree._utils src/mainUI.py
