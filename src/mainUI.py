@@ -4,7 +4,7 @@ from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QHeaderView, QTableWidgetItem, QTableView, \
     QVBoxLayout, QWidget
 from setupUI import Ui_MainWindow
-from SERP_UTIL import SERP
+from SERP_UTIL_GOOGLE import SERP
 
 class MainWindow(QMainWindow):
     def __init__(self):
