@@ -4,41 +4,7 @@ from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QHeaderView, QTableWidgetItem, QTableView, \
     QVBoxLayout, QWidget
 from setupUI import Ui_MainWindow
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-
-data = pd.read_excel('assets/search_data.xlsx')
-def preprocess(text):
-    text = text.lower()
-    return text
-# Препроцессинг названий статей
-data['Теги'] = data['Статья'].apply(preprocess)
-# Инициализация TF-IDF Vectorizer
-tfidf_vectorizer = TfidfVectorizer()
-# Обучение векторизатора и преобразование тегов в векторную форму
-tfidf_matrix = tfidf_vectorizer.fit_transform(data['Теги'])
-
-
-def SERP(query):
-    # Препроцессинг поискового запроса
-    query = preprocess(query)
-
-    # Векторизация поискового запроса
-    query_vector = tfidf_vectorizer.transform([query])
-
-    # Вычисление косинусного сходства между запросом и набором документов
-    cosine_similarities = cosine_similarity(query_vector, tfidf_matrix).flatten()
-
-    # Получение индексов статей в порядке убывания релевантности
-    relevant_indices = cosine_similarities.argsort()[:-11:-1]
-
-    # Сбор информации о наиболее релевантных статьях
-    results = []
-    for idx in relevant_indices:
-        if cosine_similarities[idx] > 0.0:  # Включаем только те, где есть сходство
-            results.append((data.iloc[idx]['Статья'], data.iloc[idx]['Источник']))
-    return results
+from SERP_UTIL import SERP
 
 class MainWindow(QMainWindow):
     def __init__(self):
