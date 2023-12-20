@@ -50,8 +50,13 @@ class MainWindow(QMainWindow):
 
 
     def __Search(self, data):
-        self.__model(SERP(data))
-
+        try:
+            self.__model(SERP(data))
+        except:
+            model = QStandardItemModel()
+            model.setHorizontalHeaderLabels(['Статья', 'Ссылка'])
+            model.appendRow([QStandardItem('Cтатья не найдена'), QStandardItem('')])
+            self.ui.SearchView.setModel(model)
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
